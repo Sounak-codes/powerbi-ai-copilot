@@ -99,14 +99,23 @@ frontend/custom_visual/dist/
 
 ## Runtime Context
 
-For production use, the Power BI visual should send:
+The current custom visual sends:
+
+- visual type and title
+- selected fields/measures from the Copilot visual's Fields well
+- up to 50 visible data points
+- viewport metadata and row count
+
+The API schema also supports these future/advanced context fields:
 
 - report and page name
-- visual id, visual type, title, fields, and visible data points
-- current report/page/visual filters
+- visual id
+- report/page/visual filters
 - slicer selections
 - selected data points
 - optional dataset schema or semantic model metadata
+
+Those advanced fields are not fully populated by the current Power BI custom visual yet.
 
 ## Notes
 
