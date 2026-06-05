@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx"
+  },
+  "files": [
+    "src/visual.ts"
+  ],
+  "exclude": [
+    "src/chat.tsx",
+    ".tmp",
+    "node_modules"
+  ]
+}

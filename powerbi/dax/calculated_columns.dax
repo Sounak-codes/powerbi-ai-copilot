@@ -1,0 +1,10 @@
+Total Paid Leave =
+parental_leave[Paid Maternity Leave] + parental_leave[Paid Paternity Leave]
+
+Parental Leave Band =
+SWITCH(
+    TRUE(),
+    parental_leave[Total Paid Leave] >= 24, "High",
+    parental_leave[Total Paid Leave] >= 12, "Medium",
+    "Low"
+)
