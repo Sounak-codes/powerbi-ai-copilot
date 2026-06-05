@@ -14,9 +14,9 @@ The copilot is designed to work with any Power BI report by receiving runtime co
 ## Structure
 
 - `backend/` contains the API, services, vector store, models, tests, logs, and knowledge base.
-- `powerbi/` contains a sample PBIX, source data, and DAX definitions for testing.
+- `powerbi/` contains optional placeholders for PBIX files, sample data, and DAX definitions.
 - `frontend/custom_visual/` contains the Power BI custom visual source.
-- `docs/` contains architecture, workflow, API, and setup documentation.
+- `docs/` contains API, setup, and runtime context documentation.
 
 ## Setup
 

@@ -13,7 +13,6 @@
     "src/visual.ts"
   ],
   "exclude": [
-    "src/chat.tsx",
     ".tmp",
     "node_modules"
   ]

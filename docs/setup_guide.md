@@ -3,19 +3,14 @@
 ## Backend
 
 ```powershell
+pip install -r requirement.txt
 cd backend
-pip install -r requirements.txt
 uvicorn app:app --reload
 ```
 
 ## Power BI Report
 
-Open `powerbi/pbix/Parental_leave_policies.pbix` in Power BI Desktop.
-
-The source CSV files are:
-
-- `powerbi/sample_data/parental_leave.csv`
-- `powerbi/sample_data/data_dictionary.csv`
+Open any PBIX file in Power BI Desktop. Add the Copilot developer visual and drag the fields/measures you want analyzed into the visual's Fields well.
 
 ## Custom Visual
 

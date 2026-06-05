@@ -1,9 +1,0 @@
-fastapi
-uvicorn[standard]
-pydantic
-python-dotenv
-pandas
-numpy
-faiss-cpu
-sentence-transformers
-groq

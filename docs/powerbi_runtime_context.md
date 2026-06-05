@@ -17,6 +17,6 @@ The copilot should work for any Power BI report by sending live context from the
 
 The backend should not hardcode a domain. It should answer from the runtime context and ask for missing fields, filters, or data when the context is not enough.
 
-## Sample Project
+## Current Visual Support
 
-`Parental_leave_policies.pbix` is a test fixture only. It helps validate the architecture but should not shape the generic copilot behavior.
+The current custom visual sends selected fields/measures, up to 50 visible data points, and viewport metadata. Report/page names, slicer selections, filters, and full semantic model metadata are supported by the API contract but are not fully populated by the current visual yet.
