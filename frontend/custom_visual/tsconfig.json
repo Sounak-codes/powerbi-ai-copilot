@@ -12,6 +12,9 @@
   "files": [
     "src/visual.ts"
   ],
+  "include": [
+    "src/**/*.d.ts"
+  ],
   "exclude": [
     ".tmp",
     "node_modules"

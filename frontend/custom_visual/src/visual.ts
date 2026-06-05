@@ -1,6 +1,8 @@
 import "./styles.css";
 import { askCopilot, DataField, ReportContext } from "./api";
 
+const botImage = require("../assets/bot.webp");
+
 type VisualConstructorOptions = {
   element: HTMLElement;
   host?: unknown;
@@ -14,13 +16,23 @@ type VisualUpdateOptions = {
   };
 };
 
+type ChatState = {
+  question: string;
+  userMessage: string;
+  answer: string;
+};
+
+const STORAGE_KEY = "powerbi-ai-copilot-chat-state";
+
 export class Visual {
   private container: HTMLElement;
   private questionInput: HTMLTextAreaElement;
   private answerOutput: HTMLElement;
+  private userBubble: HTMLElement;
   private askButton: HTMLButtonElement;
   private statusLabel: HTMLElement;
   private reportContext: ReportContext = {};
+  private hasRestoredState = false;
 
   constructor(options?: VisualConstructorOptions) {
     if (!options?.element) {
@@ -33,7 +45,9 @@ export class Visual {
       <section class="copilot-shell">
         <header class="copilot-header">
           <div class="copilot-title-row">
-            <span class="copilot-mark">AI</span>
+            <span class="copilot-mark">
+              <img src="${botImage}" alt="" />
+            </span>
             <div>
               <h2>Power BI Copilot</h2>
               <span class="copilot-status" data-role="status">Waiting for report data</span>
@@ -41,25 +55,31 @@ export class Visual {
           </div>
         </header>
         <main class="copilot-main">
+          <section class="copilot-chat">
+            <div class="copilot-bubble copilot-bubble-user" data-role="user-bubble">Ask me about the fields in this visual.</div>
+            <div class="copilot-bot-row">
+              <img class="copilot-bot-avatar" src="${botImage}" alt="" />
+              <div class="copilot-bubble copilot-bubble-assistant" data-role="answer">Add fields to this visual, then ask Copilot for insights.</div>
+            </div>
+          </section>
           <div class="copilot-prompt">
             <div class="copilot-input-row">
               <textarea id="copilot-question" class="copilot-input" data-role="question" placeholder="Ask about the selected fields..."></textarea>
               <button class="copilot-button" data-role="ask" type="button">Send</button>
             </div>
           </div>
-          <section class="copilot-answer-wrap">
-            <div class="copilot-answer-label">Response</div>
-            <div class="copilot-answer" data-role="answer">Add fields to this visual, then ask Copilot for insights.</div>
-          </section>
         </main>
       </section>
     `;
 
     this.questionInput = this.getElement<HTMLTextAreaElement>("question");
     this.answerOutput = this.getElement<HTMLElement>("answer");
+    this.userBubble = this.getElement<HTMLElement>("user-bubble");
     this.askButton = this.getElement<HTMLButtonElement>("ask");
     this.statusLabel = this.getElement<HTMLElement>("status");
     this.askButton.addEventListener("click", () => this.submitQuestion());
+    this.questionInput.addEventListener("input", () => this.saveState());
+    this.restoreStateOnce();
   }
 
   public update(options: VisualUpdateOptions): void {
@@ -67,8 +87,9 @@ export class Visual {
     const rowCount = this.reportContext.visual?.data_points?.length ?? 0;
     const fieldCount = this.reportContext.visual?.fields?.length ?? 0;
     this.statusLabel.textContent = `${fieldCount} fields, ${rowCount} data points detected`;
-    if (fieldCount === 0) {
+    if (fieldCount === 0 && !this.answerOutput.textContent?.trim()) {
       this.answerOutput.textContent = "Drag columns or measures into the Fields well so Copilot has data to analyze.";
+      this.saveState();
     }
   }
 
@@ -92,7 +113,9 @@ export class Visual {
     }
 
     this.askButton.disabled = true;
+    this.userBubble.textContent = question;
     this.answerOutput.textContent = "Thinking...";
+    this.saveState();
 
     try {
       const result = await askCopilot(question, this.reportContext);
@@ -101,6 +124,7 @@ export class Visual {
       this.answerOutput.textContent = `Copilot request failed: ${error instanceof Error ? error.message : String(error)}`;
     } finally {
       this.askButton.disabled = false;
+      this.saveState();
     }
   }
 
@@ -181,5 +205,45 @@ export class Visual {
       return "text";
     }
     return undefined;
+  }
+
+  private restoreStateOnce(): void {
+    if (this.hasRestoredState) {
+      return;
+    }
+
+    this.hasRestoredState = true;
+    const state = this.readState();
+    if (!state) {
+      return;
+    }
+
+    this.questionInput.value = state.question;
+    this.userBubble.textContent = state.userMessage;
+    this.answerOutput.textContent = state.answer;
+  }
+
+  private saveState(): void {
+    const state: ChatState = {
+      question: this.questionInput.value,
+      userMessage: this.userBubble.textContent || "",
+      answer: this.answerOutput.textContent || "",
+    };
+
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // Power BI can restrict storage in some host contexts.
+    }
+  }
+
+  private readState(): ChatState | null {
+    try {
+      const value = window.localStorage.getItem(STORAGE_KEY) || window.sessionStorage.getItem(STORAGE_KEY);
+      return value ? (JSON.parse(value) as ChatState) : null;
+    } catch {
+      return null;
+    }
   }
 }
