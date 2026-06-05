@@ -10,7 +10,6 @@ The copilot is designed to work with any Power BI report by receiving runtime co
 - Sends selected fields and visible data points to a FastAPI backend.
 - Uses Groq to generate business-friendly insights.
 - Includes a polished glass-style Copilot panel for Power BI Desktop.
-- Includes a Parental Leave Policies PBIX as a sample test dashboard.
 
 ## Structure
 
@@ -97,15 +96,6 @@ The package is generated in:
 ```text
 frontend/custom_visual/dist/
 ```
-
-## Sample Test Dashboard
-
-- PBIX: `powerbi/pbix/Parental_leave_policies.pbix`
-- Dataset: `powerbi/sample_data/parental_leave.csv`
-- Data dictionary: `powerbi/sample_data/data_dictionary.csv`
-- Dashboard screenshot: `frontend/screenshots/Parental_leave_policies_dashboard_img.jpg`
-
-This sample is only for testing. The backend prompt and API contract are intentionally generic and should not assume the report domain.
 
 ## Runtime Context
 
