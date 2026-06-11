@@ -1,0 +1,35 @@
+{
+  "dataRoles": [
+    {
+      "displayName": "Fields",
+      "name": "fields",
+      "kind": "GroupingOrMeasure"
+    }
+  ],
+  "dataViewMappings": [
+    {
+      "table": {
+        "rows": {
+          "select": [
+            {
+              "for": {
+                "in": "fields"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "privileges": [
+    {
+      "name": "WebAccess",
+      "essential": true,
+      "parameters": [
+        "http://127.0.0.1:8000",
+        "http://localhost:8000"
+      ]
+    }
+  ],
+  "objects": {}
+}

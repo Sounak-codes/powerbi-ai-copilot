@@ -1,6 +1,7 @@
 .env
 .env.*
 !.env.example
+.vscode/
 .venv/
 __pycache__/
 *.pyc
@@ -23,3 +24,5 @@ frontend/custom_visual/webpack.statistics.*.html
 frontend/custom_visual/.certs/
 frontend/custom_visual/node_modules/.cache/
 *.pbiviz
+copilot-bot-offline.png
+ai-robot-character-standing-at-attention-with-smiling-face-3d-icon-png-download-11431326.webp

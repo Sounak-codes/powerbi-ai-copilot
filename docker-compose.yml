@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: powerbi_copilot_postgres
+    environment:
+      POSTGRES_USER: copilot_user
+      POSTGRES_PASSWORD: copilot_password
+      POSTGRES_DB: powerbi_copilot
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U copilot_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: powerbi_copilot_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/backend.Dockerfile
+    container_name: powerbi_copilot_backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql://copilot_user:copilot_password@postgres:5432/powerbi_copilot"
+      REDIS_URL: "redis://redis:6379/0"
+      LLM_PROVIDER: "openai"
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-your-key-here}
+      DEBUG: "false"
+      LOG_LEVEL: "INFO"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app/backend
+    command: python -m uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+
+  # Frontend (Development)
+  frontend:
+    build:
+      context: ./frontend/pbiviz
+      dockerfile: ../../../infrastructure/docker/frontend.Dockerfile
+    container_name: powerbi_copilot_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: "http://localhost:8000/api"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/pbiviz/src:/app/src
+    command: npm start
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:latest
+    container_name: powerbi_copilot_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infrastructure/docker/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  default:
+    name: powerbi_copilot_network

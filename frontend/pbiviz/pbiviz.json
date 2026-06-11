@@ -1,0 +1,23 @@
+{
+  "visual": {
+    "name": "powerBiAiCopilotReact",
+    "displayName": "Power BI AI Copilot React",
+    "guid": "powerBiAiCopilotReactVisual",
+    "visualClassName": "Visual",
+    "version": "0.1.0.0",
+    "description": "React architecture scaffold for the Power BI AI Copilot visual.",
+    "supportUrl": "",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.3.0",
+  "author": {
+    "name": "Sounak",
+    "email": ""
+  },
+  "assets": {
+    "icon": ""
+  },
+  "externalJS": [],
+  "style": "src/styles.css",
+  "capabilities": "capabilities.json"
+}
