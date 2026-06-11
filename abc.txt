@@ -1,0 +1,372 @@
+powerbi-ai-copilot/
+│
+├── frontend/
+│   ├── pbiviz/
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   │   ├── Chat/
+│   │   │   │   ├── Message/
+│   │   │   │   ├── SuggestedQuestions/
+│   │   │   │   ├── FollowUpQuestions/
+│   │   │   │   ├── InsightCards/
+│   │   │   │   ├── KPICards/
+│   │   │   │   ├── ExecutiveSummary/
+│   │   │   │   ├── RootCauseView/
+│   │   │   │   ├── TrendAnalysisView/
+│   │   │   │   ├── DAXGeneratorView/
+│   │   │   │   └── Loading/
+│   │   │   │
+│   │   │   ├── hooks/
+│   │   │   │   ├── useChat.ts
+│   │   │   │   ├── useConversation.ts
+│   │   │   │   ├── usePowerBIContext.ts
+│   │   │   │   └── useSuggestions.ts
+│   │   │   │
+│   │   │   ├── services/
+│   │   │   │   ├── api.ts
+│   │   │   │   ├── websocket.ts
+│   │   │   │   └── auth.ts
+│   │   │   │
+│   │   │   ├── context/
+│   │   │   │   ├── ChatContext.tsx
+│   │   │   │   └── ReportContext.tsx
+│   │   │   │
+│   │   │   ├── types/
+│   │   │   │   ├── chat.ts
+│   │   │   │   ├── analytics.ts
+│   │   │   │   └── powerbi.ts
+│   │   │   │
+│   │   │   ├── utils/
+│   │   │   └── App.tsx
+│   │   │
+│   │   ├── capabilities.json
+│   │   ├── pbiviz.json
+│   │   └── package.json
+│   │
+│   └── shared-ui/
+│
+├── backend/
+│   │
+│   ├── api/
+│   │   ├── routes/
+│   │   │   ├── chat.py
+│   │   │   ├── insights.py
+│   │   │   ├── analytics.py
+│   │   │   ├── dax.py
+│   │   │   ├── reports.py
+│   │   │   ├── health.py
+│   │   │   └── feedback.py
+│   │   │
+│   │   ├── middleware/
+│   │   │   ├── auth.py
+│   │   │   ├── logging.py
+│   │   │   └── rate_limit.py
+│   │   │
+│   │   └── dependencies/
+│   │
+│   ├── orchestration/
+│   │   ├── orchestrator.py
+│   │   ├── workflow_manager.py
+│   │   ├── intent_router.py
+│   │   ├── response_builder.py
+│   │   └── state_manager.py
+│   │
+│   ├── agents/
+│   │   ├── planner_agent/
+│   │   │   ├── agent.py
+│   │   │   └── prompts.py
+│   │   │
+│   │   ├── analytics_agent/
+│   │   │   ├── agent.py
+│   │   │   └── prompts.py
+│   │   │
+│   │   ├── rag_agent/
+│   │   │   ├── agent.py
+│   │   │   └── prompts.py
+│   │   │
+│   │   ├── dax_agent/
+│   │   │   ├── agent.py
+│   │   │   └── prompts.py
+│   │   │
+│   │   ├── insight_agent/
+│   │   │   ├── agent.py
+│   │   │   └── prompts.py
+│   │   │
+│   │   └── response_agent/
+│   │       ├── agent.py
+│   │       └── prompts.py
+│   │
+│   ├── intent_engine/
+│   │   ├── classifier.py
+│   │   ├── intent_schema.py
+│   │   └── routing_rules.py
+│   │
+│   ├── analytics_engine/
+│   │   ├── trend_detection/
+│   │   │   ├── trend_detector.py
+│   │   │   ├── seasonality.py
+│   │   │   └── forecasting.py
+│   │   │
+│   │   ├── anomaly_detection/
+│   │   │   ├── isolation_forest.py
+│   │   │   ├── zscore.py
+│   │   │   └── iqr.py
+│   │   │
+│   │   ├── root_cause/
+│   │   │   ├── contribution_analysis.py
+│   │   │   ├── driver_analysis.py
+│   │   │   └── decomposition.py
+│   │   │
+│   │   ├── correlation/
+│   │   │   ├── pearson.py
+│   │   │   ├── spearman.py
+│   │   │   └── relationship_analysis.py
+│   │   │
+│   │   ├── kpi/
+│   │   │   ├── kpi_explainer.py
+│   │   │   ├── kpi_health.py
+│   │   │   └── kpi_scoring.py
+│   │   │
+│   │   ├── recommendations/
+│   │   │   ├── recommendation_engine.py
+│   │   │   └── action_generator.py
+│   │   │
+│   │   ├── executive_summary/
+│   │   │   ├── executive_summary.py
+│   │   │   └── narrative_builder.py
+│   │   │
+│   │   └── insight_generator.py
+│   │
+│   ├── context_engine/
+│   │   ├── report_context.py
+│   │   ├── page_context.py
+│   │   ├── visual_context.py
+│   │   ├── slicer_context.py
+│   │   ├── filter_context.py
+│   │   ├── selection_context.py
+│   │   └── context_builder.py
+│   │
+│   ├── cross_visual_reasoning/
+│   │   ├── visual_relationships.py
+│   │   ├── metric_dependencies.py
+│   │   ├── page_analysis.py
+│   │   └── report_analysis.py
+│   │
+│   ├── memory/
+│   │   ├── conversation_memory.py
+│   │   ├── session_manager.py
+│   │   ├── memory_store.py
+│   │   └── context_window.py
+│   │
+│   ├── rag/
+│   │   ├── ingestion/
+│   │   │   ├── report_parser.py
+│   │   │   ├── dax_parser.py
+│   │   │   ├── metadata_extractor.py
+│   │   │   └── chunking.py
+│   │   │
+│   │   ├── retrieval/
+│   │   │   ├── vector_search.py
+│   │   │   ├── bm25_search.py
+│   │   │   ├── hybrid_search.py
+│   │   │   ├── reranker.py
+│   │   │   └── metadata_filter.py
+│   │   │
+│   │   ├── embeddings/
+│   │   │   ├── embedding_service.py
+│   │   │   └── models.py
+│   │   │
+│   │   ├── vectorstores/
+│   │   │   ├── faiss_store.py
+│   │   │   └── index_manager.py
+│   │   │
+│   │   └── evaluation/
+│   │       ├── recall_at_k.py
+│   │       ├── mrr.py
+│   │       └── retrieval_metrics.py
+│   │
+│   ├── llm/
+│   │   ├── providers/
+│   │   │   ├── groq_provider.py
+│   │   │   ├── openai_provider.py
+│   │   │   └── provider_factory.py
+│   │   │
+│   │   ├── prompts/
+│   │   │   ├── analytics/
+│   │   │   ├── insights/
+│   │   │   ├── dax/
+│   │   │   ├── documentation/
+│   │   │   └── executive/
+│   │   │
+│   │   ├── output_parsers/
+│   │   │   ├── json_parser.py
+│   │   │   └── schema_validator.py
+│   │   │
+│   │   └── models/
+│   │
+│   ├── dax_copilot/
+│   │   ├── dax_generator.py
+│   │   ├── dax_explainer.py
+│   │   ├── dax_optimizer.py
+│   │   └── dax_debugger.py
+│   │
+│   ├── report_documentation/
+│   │   ├── report_documenter.py
+│   │   ├── page_documenter.py
+│   │   ├── measure_documenter.py
+│   │   └── lineage_builder.py
+│   │
+│   ├── what_if_engine/
+│   │   ├── simulator.py
+│   │   ├── scenario_builder.py
+│   │   └── impact_analysis.py
+│   │
+│   ├── schemas/
+│   │   ├── chat.py
+│   │   ├── analytics.py
+│   │   ├── context.py
+│   │   ├── insight.py
+│   │   └── response.py
+│   │
+│   ├── database/
+│   │   ├── postgres/
+│   │   │   ├── models/
+│   │   │   ├── repositories/
+│   │   │   └── migrations/
+│   │   │
+│   │   └── redis/
+│   │       ├── cache.py
+│   │       └── memory.py
+│   │
+│   ├── observability/
+│   │   ├── telemetry.py
+│   │   ├── tracing.py
+│   │   ├── metrics.py
+│   │   └── prompt_monitoring.py
+│   │
+│   ├── evaluations/
+│   │   ├── hallucination_tests/
+│   │   ├── regression_tests/
+│   │   ├── prompt_tests/
+│   │   └── benchmark_suite/
+│   │
+│   ├── workers/
+│   │   ├── celery_app.py
+│   │   ├── insight_jobs.py
+│   │   ├── indexing_jobs.py
+│   │   └── summary_jobs.py
+│   │
+│   ├── config/
+│   │   ├── settings.py
+│   │   ├── logging.py
+│   │   └── constants.py
+│   │
+│   └── main.py
+│
+├── infrastructure/
+│   ├── docker/
+│   │   ├── backend.Dockerfile
+│   │   ├── frontend.Dockerfile
+│   │   └── nginx.conf
+│   │
+│   ├── kubernetes/
+│   │   ├── backend.yaml
+│   │   ├── redis.yaml
+│   │   ├── postgres.yaml
+│   │   └── ingress.yaml
+│   │
+│   └── terraform/
+│
+├── tests/
+│   ├── unit/
+│   ├── integration/
+│   ├── e2e/
+│   └── load/
+│
+├── docs/
+│   ├── architecture.md
+│   ├── api.md
+│   ├── prompts.md
+│   ├── deployment.md
+│   └── evaluation.md
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       ├── cd.yml
+│       └── tests.yml
+│
+├── docker-compose.yml
+├── requirements.txt
+├── pyproject.toml
+└── README.md
+
+
+Phase 1 (Core Architecture)
+intent_engine/
+├── classifier.py
+├── intent_schema.py
+└── routing_rules.py
+
+orchestration/
+├── orchestrator.py
+├── workflow_manager.py
+└── response_builder.py
+
+context_engine/
+├── context_builder.py
+├── visual_context.py
+├── filter_context.py
+└── selection_context.py
+
+memory/
+├── conversation_memory.py
+└── session_manager.py
+Phase 2 (Analytics Copilot Features)
+analytics_engine/
+├── trend_detection/
+│   └── trend_detector.py
+│
+├── anomaly_detection/
+│   └── isolation_forest.py
+│
+├── root_cause/
+│   └── contribution_analysis.py
+│
+├── correlation/
+│   └── relationship_analysis.py
+│
+└── insight_generator.py
+Phase 3 (Enterprise AI)
+agents/
+├── planner_agent/
+├── analytics_agent/
+├── rag_agent/
+├── response_agent/
+
+rag/
+├── hybrid_search.py
+├── reranker.py
+└── metadata_filter.py
+Phase 4 (Interview-Winning Features)
+cross_visual_reasoning/
+what_if_engine/
+report_documentation/
+dax_copilot/
+observability/
+evaluations/
+
+I can provide production-ready code (Pydantic + FastAPI + LangGraph-compatible) for every new module.
+
+The recommended sequence is:
+
+intent_engine
+orchestration
+context_engine
+memory
+analytics_engine
+agents
+hybrid RAG
+cross_visual_reasoning
+
+That way each block plugs into the next without rewrites.
